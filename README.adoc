@@ -1,0 +1,80 @@
+= minpyne: minimum pain "Python version manager"
+
+Currently discoverable Pythons: 3.11, 3.10, 3.9, 3.8, 3.7
+
+Inspired by excellently written
+https://bitecode.substack.com/p/relieving-your-python-packaging-pain[_Relieving
+your Python packaging pain_], this ~120 line shell script does one thing: let
+you use and only use Pythons installed through system package manager, and
+create virtualenvs using their `venv`.
+
+Its name is a mix of puns: Max Payne is the painkiller addicted protagonist of
+the Max Payne series (don't addict yourself to them, obviously); the
+inspiration is said to relieving pain, so it's **min**imum pain; and,
+obviously, a **py**thon reference. It's therefore pronounced like Min Payne or
+min pain, not min pine.
+
+== Install
+
+This script is supposed to be installed through the same package manager that
+installs Pythons for you. But since it's barely created and known by no package
+maintainer, clone this repo instead. Then alias it. For example,
+
+----
+$ git clone https://github.com/bnoctis/minpyne ~/.local/share/minpyne
+$ alias minpyne=$HOME/.local/share/minpyne/minpyne.sh
+$ alias python='minpyne python'
+$ alias pip='minpyne pip'
+----
+
+The latter two aliases are optional.
+
+== Usage
+
+The script has a pretty self-explanatory help message, by running it without
+arguments or reading `show_help()` at its top. But if you want a quick intro:
+
+.Install Python
+----
+$ sudo apt install python3.11 python3.11-venv # Debian, etc.
+$ sudo dnf install python3.11 # Fedora, etc.
+----
+
+Right, minpyne doesn't install Python itself. That's on your system's package
+manager. Make sure they provide a Python executable named `pythonX.Y` where X.Y
+is its version, like 3.11. If not so, or you really _really_ want to use a
+custom Python, read on.
+
+.Set local Python version (also setting up a virtualenv)
+----
+$ cd path/to/work
+$ minpyne local 3.11
+$ minpyne local
+Python 3.11.2
+/home/i/test/bin/python (virtualenv, links to /usr/bin/python3.11)
+# or
+$ minpyne local /path/to/custom/python
+----
+
+Under the hood, it calls `/path/to/python -m venv .` to create a virtualenv.
+Nothing fancy. From now on, don't use anything fancy to "manage" this
+directory. `rm -r bin/ lib/ include/ lib64/` and reinstall dependencies if you
+must do so.
+
+.Run `python` or `pip`
+----
+# with alias, just
+$ python -V
+# without alias
+$ minpyne pip install -U pip
+----
+
+.Upgrade local Python version
+----
+$ minpyne local 3.12
+$ pip install .
+----
+
+`pyproject.toml` is the new standard, you just need a `pip install .` to
+install dependencies specified in it. How convenient.
+
