@@ -56,10 +56,9 @@ Python 3.11.2
 $ minpyne local /path/to/custom/python
 ----
 
-Under the hood, it calls `/path/to/python -m venv .` to create a virtualenv.
-Nothing fancy. From now on, don't use anything fancy to "manage" this
-directory. `rm -r bin/ lib/ include/ lib64/` and reinstall dependencies if you
-must do so.
+Under the hood, it calls `/path/to/python -m venv .venv` to create a
+virtualenv. Nothing fancy. From now on, don't use anything fancy to "manage"
+this directory. `rm -r .venv` and reinstall dependencies if you must do so.
 
 .Run `python` or `pip`
 ----

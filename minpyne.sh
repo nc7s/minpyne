@@ -25,7 +25,7 @@ EOF
 }
 
 recursive_find() {
-	cur="$PWD"
+	cur="$PWD/.venv"
 	while [ "$cur" != '/' ]; do
 		if [ -e "$cur/$1" ]; then
 			ver_file="$cur/$1"
@@ -104,8 +104,8 @@ cmd_local() {
 				exit 1
 			fi
 		fi
-		rm -r bin/ || true
-		run_venv .
+		rm -r .venv/bin/ || true
+		run_venv .venv
 	fi
 }
 
